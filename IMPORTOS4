@@ -1,0 +1,24 @@
+from alpha_vantage.timeseries import TimeSeries
+
+key = 'NLYLAEYC2FYWJPJ6'
+outputsize = 'compact'
+
+symbol = input('Ticker = ')
+typ = input('Data type - "daily", "weekly", "monthly", "interval": ')
+
+ts = TimeSeries(key, output_format='pandas')
+
+if typ == 'daily':
+    state, metadata = ts.get_daily_adjusted(symbol, outputsize=outputsize)
+elif typ == 'weekly':
+    state, metadata = ts.get_weekly_adjusted(symbol)
+elif typ == 'monthly':
+    state, metadata = ts.get_monthly_adjusted(symbol)
+elif typ == 'interval':
+    interval = input('Interval-1min, 5min, 30min, 60min: ')
+    state, metadata = ts.get_intraday(symbol, interval=interval, outputsize=outputsize)
+else:
+    print('Invalid data type specified')
+    state = None
+
+print(state)
